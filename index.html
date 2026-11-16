@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ucookies · Galletas de horno</title>
+<meta name="description" content="Ucookies: galletas de horno, sabores raros, creaciones valencianas y galletas personalizables.">
+<meta property="og:title" content="Ucookies · Galletas de horno">
+<meta property="og:description" content="Galletas de horno, sabores raros, creaciones valencianas y galletas personalizables.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#E3EBD0; --surface:#F5F8EC; --ink:#2B1A12; --muted:#6A5B4E; --accent:#C2255C; --accent-ink:#fff; --butter:#F2CF5B; --line:#c9d3b2;
+  --disp:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif; --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light; box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1d1611;--surface:#2a2018;--ink:#f6ecdc;--muted:#b9a894;--accent:#ff6b9a;--accent-ink:#2b1a12;--line:#43342a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1d1611;--surface:#2a2018;--ink:#f6ecdc;--muted:#b9a894;--accent:#ff6b9a;--accent-ink:#2b1a12;--line:#43342a;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.55 var(--body)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font:800 clamp(1.2rem,4.6vw,1.6rem) var(--disp);letter-spacing:-.02em;white-space:nowrap;cursor:pointer;display:inline-flex;align-items:baseline;animation:logoin .7s both}
+.logo .u{color:var(--accent)}
+.logo .rest,.logo .sp{display:inline-block;overflow:hidden;white-space:pre;vertical-align:bottom;max-width:var(--w,8em);transition:max-width .9s cubic-bezier(.6,0,.3,1),opacity .6s}
+.logo .sp{--w:.4em}
+.logo.done .rest,.logo.done .sp{max-width:0;opacity:0}
+@keyframes logoin{from{opacity:0;transform:translateY(10px)}}
+@media (prefers-reduced-motion:reduce){.logo{animation:none}}
+.acct{margin:0 0 40px}.acct h2{font:800 2rem var(--disp);letter-spacing:-.02em;margin:0 0 14px}
+.acols{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.acols h3{font:800 1.2rem var(--disp);margin:0 0 10px}
+.offer,.ord{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px;margin:0 0 10px}
+.offer b,.ord b{display:block}.offer p,.ord p{margin:4px 0 0;color:var(--muted);font-size:.92rem}
+.offer a{color:var(--accent);font-weight:600}
+.st{display:inline-block;font-size:.78rem;font-weight:600;border-radius:6px;padding:1px 8px;background:var(--line);margin-left:8px}
+.st.on{background:var(--accent);color:var(--accent-ink)}
+.ord .row{margin:0}
+.lnk{background:none;border:0;padding:0;text-decoration:underline;font-weight:600;color:var(--accent);cursor:pointer}
+.ord .lnk{margin-top:8px}
+@media (max-width:760px){.acols{grid-template-columns:1fr}}
+.cartbtn{background:var(--ink);color:var(--bg);border:0;border-radius:99px;padding:9px 18px;font-weight:600}
+.cartbtn b{background:var(--butter);color:#2B1A12;border-radius:99px;padding:1px 8px;margin-left:6px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding:44px 0 36px}
+h1{font:800 clamp(2.6rem,7vw,5.2rem)/.95 var(--disp);letter-spacing:-.035em;margin:0 0 18px}
+.hero p{max-width:44ch;color:var(--muted);font-size:1.1rem;margin:0 0 24px}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:12px;padding:13px 22px;font-weight:600;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.bigcookie{width:100%;max-width:400px;margin:0 auto;display:block;background:none;border:0;padding:0;touch-action:manipulation}
+.bigcookie svg{width:100%;height:auto;transition:transform .2s}
+.bigcookie:active svg{transform:scale(.96) rotate(-3deg)}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;margin:6px 0 0}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:20px 0}
+.bar h2{font:800 2rem var(--disp);letter-spacing:-.02em;margin:0 auto 0 0}
+.chip{border:2px solid var(--line);background:transparent;border-radius:99px;padding:6px 14px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px;padding-bottom:40px}
+.card{background:var(--surface);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line)}
+.card svg{width:100%;max-width:170px;height:auto;margin:0 auto;display:block}
+.card h3{font:800 1.25rem var(--disp);margin:4px 0 0}
+.card p{margin:0;color:var(--muted);font-size:.92rem;flex:1}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:.78rem;background:var(--butter);color:#2B1A12;border-radius:6px;padding:1px 8px;font-weight:600}
+.row{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.price{font:800 1.3rem var(--disp)}
+.add{background:var(--ink);color:var(--bg);border:0;border-radius:10px;padding:8px 14px;font-weight:600}
+.promo{background:var(--ink);color:var(--bg);border-radius:20px;padding:26px;margin:0 0 40px;display:flex;gap:20px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+.promo h2{font:800 1.7rem var(--disp);margin:0}
+.promo p{margin:4px 0 0;opacity:.8}
+footer{padding:24px 0 40px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
+.cupon{display:grid;grid-template-columns:1fr 1fr;gap:28px;background:var(--surface);border:2px dashed var(--accent);border-radius:20px;padding:28px;margin:0 0 40px}
+.cupon h2{font:800 2rem/1.05 var(--disp);letter-spacing:-.02em;margin:0 0 10px}
+.cupon p{color:var(--muted);margin:0 0 10px}
+.cupon .big{font:800 3.4rem/1 var(--disp);color:var(--accent)}
+.ok{background:var(--butter);color:#2B1A12;border-radius:12px;padding:12px 14px;font-weight:600;margin-top:12px}
+.ok button{background:none;border:0;text-decoration:underline;font-weight:600;padding:0;margin-left:6px;color:inherit}
+@media (max-width:760px){.cupon{grid-template-columns:1fr;padding:20px}}
+/* carrito */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:9}
+.scrim.on{opacity:1;pointer-events:auto}
+aside{position:fixed;top:0;right:0;height:100%;width:min(420px,100%);background:var(--surface);z-index:10;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) 18px calc(16px + env(safe-area-inset-bottom,0px))}
+aside.on{transform:none}
+aside header{position:static;background:none;border:0;display:flex;justify-content:space-between;align-items:center}
+aside h2{font:800 1.5rem var(--disp);margin:0}
+.x{background:none;border:0;font-size:1.6rem;line-height:1}
+.items{flex:1;overflow:auto;margin:10px 0}
+.empty{color:var(--muted);padding:30px 0;text-align:center}
+.it{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.it svg{width:52px;height:52px}
+.it small{color:var(--muted);display:block}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:transparent}
+.sum{border-top:2px solid var(--ink);padding-top:10px;font-size:.95rem}
+.sum div{display:flex;justify-content:space-between;margin:3px 0}
+.sum .tot{font:800 1.25rem var(--disp)}
+.good{color:var(--accent);font-weight:600}
+.btn.full{width:100%;margin-top:10px;text-align:center}
+.btn[disabled]{opacity:.4;cursor:not-allowed}
+/* checkout */
+dialog{border:0;border-radius:20px;background:var(--surface);color:var(--ink);padding:24px;width:min(460px,calc(100% - 24px))}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h2{font:800 1.6rem var(--disp);margin:0 0 12px}
+label{display:block;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+input[aria-invalid="true"]{border-color:var(--accent)}
+.err{color:var(--accent);font-size:.85rem;min-height:1.1em;margin:2px 0 0}
+dialog{max-height:calc(100% - 24px);overflow:auto}
+.pm{border:0;padding:0;margin:14px 0 0}
+.pm legend{font-weight:600;padding:0;margin-bottom:4px}
+.pm label{display:flex;align-items:center;gap:10px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0;font-weight:600;cursor:pointer}
+.pm label:has(input:checked){border-color:var(--accent);background:var(--bg)}
+.pm input{width:auto;margin:0;accent-color:var(--accent)}
+.pnote{color:var(--muted);font-size:.9rem;margin:6px 0}
+.paytot{font:800 1.2rem var(--disp);display:flex;justify-content:space-between;margin:12px 0 0}
+.cardrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+[hidden]{display:none!important}
+.hbtns{display:flex;gap:8px;align-items:center}
+.sharebtn{background:transparent;color:var(--ink);border:2px solid var(--ink);border-radius:99px;padding:7px 14px;font-weight:600}
+.card{position:relative}
+.shc{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:99px;border:1px solid var(--line);background:var(--bg);font-size:1.1rem;line-height:1}
+.card.hl{outline:3px solid var(--accent);animation:pulse 1.2s 2}
+@keyframes pulse{50%{box-shadow:0 0 0 10px rgba(194,37,92,.25)}}
+.shr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.shr .btn{text-align:center}
+@media (max-width:520px){.sharebtn .lbl{display:none}.sharebtn{padding:7px 12px}}
+textarea{width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;resize:vertical}
+footer a{color:inherit;font-weight:600}
+.sumtxt{white-space:pre-wrap;background:var(--bg);border-radius:12px;padding:12px;font:.85rem/1.5 var(--body);margin:10px 0;max-height:220px;overflow:auto}
+.rev{margin:0 0 40px}.rev h2,.soc h2{font:800 2rem var(--disp);letter-spacing:-.02em;margin:0 0 10px}
+.rsum{display:flex;gap:14px;align-items:center;margin:0 0 8px}.avg{font:800 3rem/1 var(--disp)}
+.stars{color:#B87500;letter-spacing:2px}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .stars{color:var(--butter)}}
+:root[data-theme="dark"] .stars{color:var(--butter)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:12px 0 20px}
+.rv{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.rvh{display:flex;justify-content:space-between;align-items:center}.rv p{margin:8px 0}.rv small{color:var(--muted)}
+.rform{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;max-width:560px}
+.rform h3{font:800 1.3rem var(--disp);margin:0 0 6px}
+.rfs{border:0;padding:0;margin:12px 0 0}.rfs legend{font-weight:600;padding:0;margin-bottom:6px}
+.starpick{display:flex;gap:6px;flex-wrap:wrap}
+.starpick label{border:2px solid var(--line);border-radius:10px;padding:6px 10px;cursor:pointer;font-weight:600;display:flex;gap:6px;align-items:center;margin:0}
+.starpick label:has(input:checked){border-color:var(--accent);background:var(--bg)}
+.starpick input{width:auto;margin:0;accent-color:var(--accent)}
+.soc{background:var(--ink);color:var(--bg);border-radius:20px;padding:26px;margin:0 0 40px}
+.soc p{margin:0 0 14px;opacity:.85}
+.soc .btn{background:var(--butter);color:#2B1A12;display:inline-flex;gap:8px;align-items:center}
+.nav{display:flex;gap:20px;font-weight:600}.nav a{color:inherit;text-decoration:none}
+.hero .btn{margin:0 6px 8px 0}
+.tag.hot{background:var(--accent);color:var(--accent-ink)}
+.builder{margin:0 0 40px}
+.builder h2{font:800 2rem var(--disp);letter-spacing:-.02em;margin:0 0 4px}
+.bsub{color:var(--muted);margin:0 0 18px}
+.bgrid{display:grid;grid-template-columns:340px 1fr;gap:24px;align-items:start}
+.bprev{position:sticky;top:calc(72px + env(safe-area-inset-top,0px));background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px}
+.bprev svg{width:100%;max-width:230px;display:block;margin:0 auto}
+.bprev ul{list-style:none;padding:0;margin:10px 0;font-size:.92rem}
+.bprev li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dashed var(--line)}
+.bq{display:flex;align-items:center;gap:6px}.bq label{margin:0;font-weight:400}.bq input{width:64px;padding:6px 8px}
+.builder h3{font:800 1.2rem var(--disp);margin:20px 0 8px}
+.builder h3 small{font:400 .9rem var(--body);color:var(--muted)}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.opts label{display:flex;gap:8px;align-items:flex-start;border:2px solid var(--line);border-radius:12px;padding:9px 11px;cursor:pointer;background:var(--surface);margin:0;font-weight:600}
+.opts label:has(input:checked){border-color:var(--accent);background:var(--bg)}
+.opts input{width:auto;margin-top:4px;accent-color:var(--accent)}
+.opts span{flex:1}.opts small{display:block;font-weight:400;color:var(--muted);font-size:.82rem}
+.opts em{font-style:normal;font-weight:600;color:var(--muted);font-size:.85rem;white-space:nowrap}
+.opts em.free{color:var(--accent)}
+@media (max-width:760px){.nav{display:none}.bgrid{grid-template-columns:1fr}.bprev{position:static}}
+@media (max-width:760px){.hero{grid-template-columns:1fr;padding-top:24px}.bigcookie{max-width:280px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><span class="logo" id="logo" role="img" aria-label="Ucookies"><span class="u">U</span><span class="rest" id="rest">niversity</span><span class="sp"> </span><span id="cc">C</span><span>ookies</span></span><nav class="nav"><a href="#tienda">Galletas</a><a href="#personaliza">Personaliza</a><a href="#cupones">Cupones</a><a href="#valoraciones">Opiniones</a><a href="#cuenta">Mis compras</a><a href="#redes">Redes</a></nav><span class="hbtns"><button class="sharebtn" id="shareopen" aria-label="Compartir esta web"><span aria-hidden="true">↗</span><span class="lbl"> Compartir</span></button><button class="cartbtn" id="open" aria-label="Abrir carrito">Carrito<b id="count">0</b></button></span></div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <div>
+      <h1>Galletas hechas esta mañana.</h1>
+      <p>Horneamos en tandas pequeñas con mantequilla, chocolate de verdad y sin conservantes. Elige tus sabores y las recibes frescas en 24 horas.</p>
+      <a class="btn" href="#tienda">Ver las galletas</a> <a class="btn ghost" href="#personaliza">Personaliza tu galleta</a> <a class="btn ghost" href="#cupones">Cupón de estudiantes</a>
+    </div>
+    <div>
+      <button class="bigcookie" id="big" aria-label="Dar un mordisco a la galleta"></button>
+      <p class="hint" id="hint">Pulsa la galleta y dale un mordisco.</p>
+    </div>
+  </section>
+
+  <section id="tienda">
+    <div class="bar"><h2>Nuestras galletas</h2><span id="filters" role="group" aria-label="Filtrar galletas"></span></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="builder" id="personaliza">
+    <h2>Personaliza tu galleta</h2>
+    <p class="bsub">Monta tu galleta en tres pasos. Los dos primeros toppings que elijas van incluidos; a partir del tercero se paga cada uno.</p>
+    <div class="bgrid">
+      <div class="bprev">
+        <div id="bsvg"></div>
+        <ul id="bsum"></ul>
+        <div class="row"><span class="price" id="bprice"></span><span class="bq"><label for="bq">Cantidad</label><input id="bq" type="number" min="1" max="24" value="1"></span></div>
+        <button class="btn full" id="badd" type="button">Añadir al carrito</button>
+        <p class="err" id="bmsg" aria-live="polite"></p>
+      </div>
+      <div>
+        <h3>1. Elige la base</h3><div class="opts" id="obase"></div>
+        <h3>2. Elige el relleno</h3><div class="opts" id="ofill"></div>
+        <h3>3. Añade toppings <small id="tcount"></small></h3><div class="opts" id="otops"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="promo">
+    <div><h2>Con 12 galletas, 10 % de descuento</h2><p>Se aplica solo en el carrito. Envío gratis a partir de 15 €.</p></div>
+    <a class="btn" style="background:var(--butter);color:#2B1A12" href="#tienda">Armar mi caja</a>
+  </section>
+<section class="cupon" id="cupones">
+  <div>
+    <div class="big">50 %</div>
+    <h2>Cupón para estudiantes de Derecho</h2>
+    <p>Si estudias en la facultad de Derecho y tu nota media es de 9,5 o más, tus galletas cuestan la mitad.</p>
+    <p>El cupón se aplica al subtotal del carrito y no se suma al descuento por 12 galletas. Se usa en un solo pedido.</p>
+  </div>
+  <form id="cform" novalidate>
+    <label for="cn">Nombre</label><input id="cn" autocomplete="name"><p class="err" id="ecn"></p>
+    <label for="cm">Correo universitario</label><input id="cm" type="email" autocomplete="email"><p class="err" id="ecm"></p>
+    <label for="cf">Facultad</label>
+    <select id="cf"><option value="derecho">Derecho</option><option value="otra">Otra facultad</option></select>
+    <label for="cg">Nota media (de 0 a 10)</label><input id="cg" inputmode="decimal" placeholder="Por ejemplo, 9,6"><p class="err" id="ecg"></p>
+    <button class="btn full" type="submit">Conseguir mi cupón</button>
+    <div id="cstate" aria-live="polite"></div>
+  </form>
+</section>
+<section class="rev" id="valoraciones">
+  <h2>Valoraciones</h2>
+  <div class="rsum"><div class="avg" id="ravg"></div><div><div class="stars" id="rstars" aria-hidden="true"></div><div id="rcount"></div></div></div>
+  <p class="pnote">Las reseñas marcadas como «Ejemplo» son piloto: sirven para ver cómo quedará la sección y se sustituirán por opiniones reales.</p>
+  <div class="rgrid" id="rlist"></div>
+  <form class="rform" id="rform" novalidate>
+    <h3>Cuéntanos qué tal estaban</h3>
+    <label for="rn">Nombre</label><input id="rn" maxlength="30" autocomplete="given-name"><p class="err" id="ern"></p>
+    <fieldset class="rfs"><legend>Tu valoración</legend><div class="starpick" id="rpick"></div></fieldset><p class="err" id="ers"></p>
+    <label for="rt">Tu opinión</label><textarea id="rt" rows="3" maxlength="400"></textarea><p class="err" id="ert"></p>
+    <button class="btn" type="submit">Publicar valoración</button>
+    <p class="err" id="rmsg" aria-live="polite"></p>
+    <p class="pnote">Tu valoración se guarda solo en este navegador. Para que la vean todos los visitantes haría falta un servidor.</p>
+  </form>
+</section>
+
+<section class="acct" id="cuenta">
+  <h2>Mis compras y ofertas</h2>
+  <div class="acols">
+    <div><h3>Compras realizadas</h3><div id="ordlist"></div></div>
+    <div><h3>Ofertas disponibles</h3><div id="offlist"></div></div>
+  </div>
+</section>
+<section class="soc" id="redes">
+  <h2>Síguenos en Instagram</h2>
+  <p>Novedades, sabores nuevos y todo lo que sale del horno.</p>
+  <a class="btn" href="https://www.instagram.com/ucookies4/" target="_blank" rel="noopener noreferrer"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>@ucookies4</a>
+</section>
+</main>
+<footer><div class="wrap">Ucookies · <a href="https://www.instagram.com/ucookies4/" target="_blank" rel="noopener noreferrer">Instagram @ucookies4</a> · Pedidos de demostración: no se realiza ningún cobro real.</div></footer>
+
+<div class="scrim" id="scrim"></div>
+<aside id="cart" aria-label="Carrito" aria-hidden="true">
+  <header><h2>Tu carrito</h2><button class="x" id="close" aria-label="Cerrar carrito">×</button></header>
+  <div class="items" id="items"></div>
+  <div class="sum" id="sum"></div>
+  <button class="btn full" id="go" disabled>Hacer el pedido</button>
+</aside>
+
+<dialog id="sdlg">
+  <h2 id="stitle">Comparte Ucookies</h2>
+  <p class="pnote" id="stext"></p>
+  <label for="slink">Enlace</label>
+  <input id="slink" readonly>
+  <div class="shr">
+    <button class="btn" id="snative" type="button" hidden>Compartir con…</button>
+    <button class="btn" id="scopy" type="button">Copiar enlace</button>
+    <a class="btn ghost" id="swa" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+    <a class="btn ghost" id="stg" target="_blank" rel="noopener noreferrer">Telegram</a>
+    <a class="btn ghost" id="sx" target="_blank" rel="noopener noreferrer">X</a>
+    <a class="btn ghost" id="smail">Correo</a>
+  </div>
+  <p class="err" id="smsg" aria-live="polite"></p>
+  <button class="btn ghost full" id="sclose" type="button">Cerrar</button>
+</dialog>
+
+<dialog id="dlg">
+  <div id="formbox">
+    <h2>Datos y pago</h2>
+    <form id="form" novalidate>
+      <label for="n">Nombre</label><input id="n" autocomplete="name"><p class="err" id="en"></p>
+      <label for="e">Correo electrónico</label><input id="e" type="email" autocomplete="email"><p class="err" id="ee"></p>
+      <div id="addrbox"><label for="a">Dirección</label><input id="a" autocomplete="street-address"><p class="err" id="ea"></p></div>
+      <label for="d" id="dl">Entrega</label>
+      <select id="d"><option>Mañana, 9:00–13:00</option><option>Mañana, 16:00–20:00</option><option>Pasado mañana, 9:00–13:00</option></select>
+      <fieldset class="pm"><legend>Método de pago</legend>
+        <label><input type="radio" name="pm" value="tarjeta" checked> Tarjeta de crédito o débito</label>
+        <label><input type="radio" name="pm" value="applepay"> Apple Pay</label>
+        <label><input type="radio" name="pm" value="uber"> Uber Eats</label>
+        <label><input type="radio" name="pm" value="glovo"> Glovo</label>
+        <label><input type="radio" name="pm" value="recoger"> Pagar al recoger en tienda</label>
+      </fieldset>
+      <p class="pnote" id="pnote"></p>
+      <div id="cardbox">
+        <label for="pn">Número de tarjeta</label><input id="pn" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456"><p class="err" id="epn"></p>
+        <div class="cardrow"><div><label for="px">Caducidad</label><input id="px" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" maxlength="5"><p class="err" id="epx"></p></div>
+        <div><label for="pc">Código CVC</label><input id="pc" inputmode="numeric" autocomplete="cc-csc" maxlength="4" placeholder="123"><p class="err" id="epc"></p></div></div>
+      </div>
+      <div class="paytot"><span>Total</span><span id="paytot"></span></div>
+      <button class="btn full" type="submit" id="sub">Pagar y confirmar</button>
+      <button class="btn ghost full" type="button" id="cancel">Volver al carrito</button>
+    </form>
+  </div>
+  <div id="done" hidden>
+    <h2>¡Pedido confirmado!</h2>
+    <p id="msg"></p>
+    <pre class="sumtxt" id="sumtxt"></pre>
+    <div class="shr"><a class="btn" id="mailme">Enviarlo a mi correo</a><button class="btn ghost" id="copysum" type="button">Copiar resumen</button></div>
+    <p class="pnote">Esta demo no envía correos automáticos: el botón abre tu app de correo con el resumen ya escrito.</p>
+    <button class="btn full" id="ok">Seguir mirando galletas</button>
+  </div>
+</dialog>
+
+<script>
+const P=[
+ {id:"choc-sal",n:"Chocolate negro y sal",d:"Pepitas de chocolate 70 % y escamas de sal en el centro.",p:2.2,t:["chocolate"],c:"#C98B4B",chip:"#3b2316"},
+ {id:"triple",n:"Triple chocolate",d:"Masa de cacao con chocolate negro, con leche y blanco.",p:2.4,t:["chocolate"],c:"#6b3f2a",chip:"#f1e3c6"},
+ {id:"avena",n:"Avena y pasas",d:"Copos de avena, pasas jugosas y un toque de canela.",p:2,t:["frutal"],c:"#CDA066",chip:"#5a2d3c"},
+ {id:"limon",n:"Mantequilla y limón",d:"Crujiente por fuera, con ralladura de limón recién hecha.",p:2.1,t:["frutal"],c:"#EBCB7A",chip:"#fff6c8"},
+ {id:"pistacho",n:"Pistacho y chocolate blanco",d:"Pistachos tostados y chocolate blanco que se funde.",p:2.6,t:["chocolate"],c:"#C9B97A",chip:"#7c9a4a"},
+ {id:"almendra",n:"Almendra sin gluten",d:"Harina de almendra, tierna y con borde dorado.",p:2.5,t:["sin gluten"],c:"#D4A86A",chip:"#f3e2bd"},
+ {id:"cacahuete",n:"Cacahuete vegana",d:"Mantequilla de cacahuete y trozos de chocolate sin lácteos.",p:2.2,t:["vegana","chocolate"],c:"#BE8445",chip:"#3b2316"},
+ {id:"jengibre",n:"Jengibre y canela",d:"Especiada, con melaza y un borde de azúcar.",p:2,t:["vegana"],c:"#9A5B31",chip:"#e8c27a"},
+ {id:"horchata",n:"Horchata y canela",d:"Inspirada en la horchata de chufa: masa suave con chufa y glaseado de canela.",p:2.6,t:["valenciana"],c:"#E4CC9A",chip:"#a8703a"},
+ {id:"azahar",n:"Naranja y azahar",d:"Naranja de Valencia confitada y un toque de agua de azahar.",p:2.5,t:["valenciana","frutal"],c:"#E9B25A",chip:"#f08a24"},
+ {id:"jijona",n:"Turrón de Jijona",d:"Almendra molida y miel, con la textura del turrón blando.",p:2.7,t:["valenciana"],c:"#D8B27A",chip:"#f3e4c0"},
+ {id:"bunuelo",n:"Buñuelo de calabaza",d:"Calabaza y canela rebozada en azúcar, como los de las Fallas.",p:2.4,t:["valenciana"],c:"#E0914A",chip:"#fff1d6"},
+ {id:"cremaet",n:"Cremaet",d:"Café, canela y piel de limón, como el cremaet valenciano pero sin alcohol.",p:2.7,t:["valenciana"],c:"#8A5A3A",chip:"#f1e3c6"},
+ {id:"matcha",n:"Matcha y chocolate blanco",d:"Té matcha y chocolate blanco: verde por fuera y cremosa por dentro.",p:2.9,t:["rara"],c:"#9DBA72",chip:"#fff4d6"},
+ {id:"cereales",n:"Cereales con leche",d:"Copos de maíz crujientes y glaseado de leche con vainilla.",p:2.8,t:["rara"],c:"#E7C98C",chip:"#f2a65a"},
+ {id:"tiramisu",n:"Tiramisú",d:"Café, mascarpone y cacao: la tarta en versión galleta.",p:3,t:["rara"],c:"#B58B63",chip:"#3b2316"},
+ {id:"sesamo",n:"Sésamo negro y miel",d:"Pasta de sésamo negro, miel y semillas tostadas.",p:2.9,t:["rara"],c:"#7b7482",chip:"#2a2430"},
+ {id:"fresa",n:"Cheesecake de fresa",d:"Relleno de queso crema y mermelada de fresa.",p:3,t:["rara"],c:"#E8B9B6",chip:"#c2255c"},
+ {id:"velvet",n:"Red velvet y queso",d:"Base red velvet con relleno de crema de queso, coco rallado y frambuesa liofilizada.",p:3.2,t:[],c:"#A8324A",chip:"#fffaf0",r:{b:"velvet",f:"queso",t:["coco","frambuesa"]}},
+ {id:"fiesta",n:"Fiesta de colores",d:"Base de chocolate blanco con lluvia de colores, nubes de azúcar y oro comestible.",p:3.3,t:[],c:"#EAD9B0",chip:"#e5485f",r:{b:"blanco",f:"none",t:["lluvia","nubes","oro"]}},
+ {id:"caramelo",n:"Caramelo salado y avellana",d:"Base clásica rellena de dulce de leche, con caramelo salado, avellana tostada y sal en escamas.",p:3,t:[],c:"#D9A760",chip:"#d98a2b",r:{b:"clasica",f:"dulce",t:["caramelo","avellana","sal"]}},
+ {id:"cocofrutos",n:"Coco y frutos rojos",d:"Base de chocolate blanco con mermelada de frutos rojos, coco rallado y frambuesa liofilizada.",p:2.8,t:["frutal"],c:"#EAD9B0",chip:"#d6336c",r:{b:"blanco",f:"frutos",t:["coco","frambuesa"]}},
+ {id:"matchapis",n:"Matcha y pistacho",d:"Base de matcha rellena de crema de pistacho, con pistacho picado y almendra laminada.",p:3.6,t:["rara"],c:"#A3BE7C",chip:"#8fb04f",r:{b:"matcha",f:"pistacho",t:["pistacho","almendra"]}},
+ {id:"avellanatrozos",n:"Chocolate, avellana y trozos",d:"Base de chocolate negro rellena de crema de avellanas, con trozos de galleta y virutas de chocolate.",p:3,t:["chocolate"],c:"#5a3426",chip:"#8b5a3a",r:{b:"choc",f:"avellana",t:["trozos","virutas"]}},
+ {id:"avenacacahuete",n:"Avena y cacahuete",d:"Base de avena rellena de mantequilla de cacahuete, con almendra laminada y canela.",p:2.8,t:[],c:"#C8A06A",chip:"#f0d9a8",r:{b:"avena",f:"cacahuete",t:["almendra","canela"]}},
+ {id:"sgfrutos",n:"Sin gluten de frutos rojos",d:"Base sin gluten rellena de mermelada de frutos rojos, con frambuesa liofilizada y almendra laminada.",p:3.2,t:["sin gluten","frutal"],c:"#D6AC72",chip:"#d6336c",r:{b:"singluten",f:"frutos",t:["frambuesa","almendra"]}},
+ {id:"vegcoco",n:"Vegana de chocolate y coco",d:"Base vegana rellena de chocolate negro fundido, con coco rallado y sal en escamas.",p:3.1,t:["vegana","chocolate"],c:"#C99A5E",chip:"#fffaf0",r:{b:"vegana",f:"choc",t:["coco","sal"]}},
+ {id:"dorada",n:"La dorada",d:"Base de chocolate negro rellena de crema de pistacho, con pistacho picado, almendra laminada y oro comestible.",p:4.2,t:["chocolate"],c:"#5a3426",chip:"#e3b341",r:{b:"choc",f:"pistacho",t:["pistacho","almendra","oro"]}},
+ {id:"chocnaranja",n:"Chocolate y naranja valenciana",d:"Base de chocolate negro rellena de crema de naranja y azahar, con virutas de chocolate y almendra laminada.",p:3,t:["valenciana","chocolate","frutal"],c:"#5a3426",chip:"#f0a43a",r:{b:"choc",f:"naranja",t:["virutas","almendra"]}}
+];
+const $=s=>document.querySelector(s);
+const eur=v=>new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR"}).format(v);
+function rnd(seed){let s=0;for(const ch of seed)s=(s*31+ch.charCodeAt(0))>>>0;return()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296}}
+function cookie(p,bites){
+  const r=rnd(p.id),chips=[];
+  for(let i=0;i<11;i++){const a=r()*6.283,d=Math.sqrt(r())*38;chips.push(`<ellipse cx="${(50+Math.cos(a)*d).toFixed(1)}" cy="${(50+Math.sin(a)*d).toFixed(1)}" rx="${(3+r()*3).toFixed(1)}" ry="${(2.5+r()*2.5).toFixed(1)}" fill="${p.chip}" transform="rotate(${(r()*180)|0} 50 50)"/>`)}
+  const id="m"+p.id+(bites?"b":"");
+  const cuts=(bites||[]).map(b=>`<circle cx="${(50+Math.cos(b)*49).toFixed(1)}" cy="${(50+Math.sin(b)*49).toFixed(1)}" r="12" fill="#000"/>`).join("");
+  return `<svg viewBox="0 0 100 100" role="img" aria-label="Galleta ${p.n}"><defs><mask id="${id}"><rect width="100" height="100" fill="#fff"/>${cuts}</mask></defs><g mask="url(#${id})"><circle cx="50" cy="50" r="46" fill="${p.c}"/><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="3"/>${chips.join("")}</g></svg>`;
+}
+/* hero */
+let bites=[];
+function drawBig(){$("#big").innerHTML=cookie(P[0],bites)}
+$("#big").onclick=()=>{
+  if(bites.length>=5){bites=[];$("#hint").textContent="¡Otra galleta recién hecha! Pulsa para morder.";drawBig();return}
+  bites.push(Math.random()*6.283);
+  $("#hint").textContent=bites.length>=5?"Se acabó. Pulsa para hornear otra.":"¡Ñam! Quedan "+(5-bites.length)+" mordiscos.";
+  drawBig();
+};
+drawBig();
+/* tienda */
+let filter="todas";
+const F=["todas","chocolate","frutal","valenciana","rara","sin gluten","vegana"],LBL={rara:"Sabores raros",valenciana:"Valencianas"},TAGL={rara:"sabor raro"};
+function drawFilters(){
+  $("#filters").innerHTML=F.map(f=>`<button class="chip" data-f="${f}" aria-pressed="${f===filter}">${LBL[f]||f[0].toUpperCase()+f.slice(1)}</button>`).join(" ");
+  $("#filters").querySelectorAll("button").forEach(b=>b.onclick=()=>{filter=b.dataset.f;drawFilters();drawGrid()});
+}
+function drawGrid(){
+  const pool=P.filter(p=>!p.custom&&p.t.includes("rara")),weekly=pool[Math.floor(Date.now()/6048e5)%pool.length].id;
+  const list=P.filter(p=>!p.custom&&(filter==="todas"||p.t.includes(filter)));
+  $("#grid").innerHTML=list.map(p=>`<article class="card" id="g-${p.id}"><button class="shc" data-sh="${p.id}" aria-label="Compartir ${p.n}">↗</button>${cookie(p)}<div class="tags">${p.id===weekly?`<span class="tag hot">Sabor de la semana</span>`:""}${p.t.map(t=>`<span class="tag">${TAGL[t]||t}</span>`).join("")}</div><h3>${p.n}</h3><p>${p.d}</p><div class="row"><span class="price">${eur(p.p)}</span>${p.r?`<button class="lnk" data-rec="${p.id}">Personalizar</button>`:""}<button class="add" data-id="${p.id}">Añadir</button></div></article>`).join("");
+  $("#grid").querySelectorAll(".add").forEach(b=>b.onclick=()=>{add(b.dataset.id,1);b.textContent="Añadida ✓";setTimeout(()=>b.textContent="Añadir",900)});
+}
+/* carrito */
+let pay="tarjeta";
+let coupon=false;
+try{coupon=localStorage.getItem("migas-coupon")==="1"}catch(e){}
+let cart={};
+try{const s=localStorage.getItem("migas-cart");if(s)cart=JSON.parse(s)||{}}catch(e){}
+let lastOrder=null;
+let orders=[];
+try{const o=JSON.parse(localStorage.getItem("migas-orders"));if(Array.isArray(o))orders=o.filter(x=>x&&typeof x.num==="string"&&Array.isArray(x.items)&&typeof x.total==="number").slice(0,20)}catch(e){}
+let customs={};
+try{const o=JSON.parse(localStorage.getItem("migas-custom"));if(o&&typeof o==="object")customs=o}catch(e){}
+const hex=(s,d)=>/^#[0-9a-f]{6}$/i.test(s)?s:d;
+for(const [id,c] of Object.entries(customs)){
+  if(/^c[a-z0-9]+$/.test(id)&&c&&typeof c.p==="number"&&c.p>0&&c.p<100&&!P.some(x=>x.id===id))P.push({id,n:"Galleta personalizada",d:String(c.d||"").replace(/[<>&\"]/g,"").slice(0,220),p:c.p,t:[],c:hex(c.c,"#D9A760"),chip:hex(c.chip,"#3b2316"),custom:true});
+}
+cart=Object.fromEntries(Object.entries(cart).filter(([k,v])=>P.some(p=>p.id===k)&&Number.isInteger(v)&&v>0));
+function save(){try{localStorage.setItem("migas-cart",JSON.stringify(cart))}catch(e){}}
+function add(id,q){cart[id]=(cart[id]||0)+q;if(cart[id]<=0)delete cart[id];save();drawCart()}
+function totals(){
+  let units=0,sub=0;for(const [id,q] of Object.entries(cart)){units+=q;sub+=q*P.find(p=>p.id===id).p}
+  const disc=coupon?sub*.5:(units>=12?sub*.1:0),after=sub-disc,ship=(units===0||(pay!=="tarjeta"&&pay!=="applepay"))?0:(after>=15?0:3.9);
+  return{units,sub,disc,ship,total:after+ship};
+}
+function drawCart(){
+  const t=totals();$("#count").textContent=t.units;
+  const ids=Object.keys(cart);
+  $("#items").innerHTML=ids.length?ids.map(id=>{const p=P.find(x=>x.id===id),q=cart[id];return`<div class="it">${cookie(p)}<div><strong>${p.n}</strong><small>${eur(p.p)} c/u${p.custom?" · "+p.d:""}</small></div><div><div class="qty"><button data-id="${id}" data-d="-1" aria-label="Quitar una ${p.n}">−</button><span>${q}</span><button data-id="${id}" data-d="1" aria-label="Añadir una ${p.n}">+</button></div></div></div>`}).join(""):`<p class="empty">Tu carrito está vacío. Añade galletas desde la tienda.</p>`;
+  $("#items").querySelectorAll("button").forEach(b=>b.onclick=()=>add(b.dataset.id,+b.dataset.d));
+  const falta=12-t.units;
+  $("#sum").innerHTML=t.units?`<div><span>Subtotal</span><span>${eur(t.sub)}</span></div>${t.disc?`<div class="good"><span>${coupon?"Cupón estudiante de Derecho (50 %)":"Descuento por 12 o más"}</span><span>−${eur(t.disc)}</span></div>`:`<div><span>Faltan ${falta} para el 10 % de descuento</span><span></span></div>`}<div><span>${pay==="recoger"?"Recogida en tienda":(pay==="uber"||pay==="glovo")?"Envío (se paga en la app)":"Envío"}</span><span>${t.ship?eur(t.ship):((pay==="uber"||pay==="glovo")?"En la app":"Gratis")}</span></div><div class="tot"><span>Total</span><span>${eur(t.total)}</span></div>`:"";
+  $("#go").disabled=!t.units;drawOffers();
+}
+function toggle(on){$("#cart").classList.toggle("on",on);$("#scrim").classList.toggle("on",on);$("#cart").setAttribute("aria-hidden",!on);if(on)$("#close").focus()}
+$("#open").onclick=()=>toggle(true);$("#close").onclick=()=>toggle(false);$("#scrim").onclick=()=>toggle(false);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")toggle(false)});
+/* checkout */
+$("#go").onclick=()=>{setPay(pay);$("#formbox").hidden=false;$("#done").hidden=true;$("#dlg").showModal()};
+$("#cancel").onclick=()=>$("#dlg").close();
+$("#form").addEventListener("submit",e=>{
+  e.preventDefault();
+  const v={n:$("#n").value.trim(),e:$("#e").value.trim(),a:$("#a").value.trim()};
+  const er={n:v.n.length<2?"Escribe tu nombre.":"",e:/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v.e)?"":"Escribe un correo válido, como nombre@correo.com.",a:(pay!=="recoger"&&v.a.length<6)?"Escribe la calle, el número y la ciudad.":""};
+  for(const k of ["n","e","a"]){$("#e"+k).textContent=er[k];$("#"+k).setAttribute("aria-invalid",!!er[k])}
+  const ce={};
+  if(pay==="tarjeta"){
+    const num=$("#pn").value.replace(/\D/g,""),ex=$("#px").value.trim(),cv=$("#pc").value.trim(),mm=/^(\d{2})\/(\d{2})$/.exec(ex);
+    ce.n=(num.length>=13&&luhn(num))?"":"Escribe un número de tarjeta válido.";
+    ce.x=(mm&&+mm[1]>=1&&+mm[1]<=12&&new Date(2000+ +mm[2],+mm[1])>new Date())?"":"Escribe una caducidad vigente como MM/AA, por ejemplo 08/29.";
+    ce.c=/^\d{3,4}$/.test(cv)?"":"Escribe el código de 3 o 4 cifras del reverso.";
+  }
+  for(const k of ["n","x","c"]){$("#ep"+k).textContent=ce[k]||"";$("#p"+k).setAttribute("aria-invalid",!!ce[k])}
+  if(er.n||er.e||er.a||ce.n||ce.x||ce.c)return;
+  const t=totals(),num="UC-"+Math.floor(10000+Math.random()*89999);
+  const slot=$("#d").value,last4=$("#pn").value.replace(/\D/g,"").slice(-4);
+  const how={tarjeta:`Pagado con la tarjeta terminada en ${last4}.`,applepay:"Pagado con Apple Pay.",uber:"Te enviamos un enlace de Uber Eats para completar el pedido y pagar allí.",glovo:"Te enviamos un enlace de Glovo para completar el pedido y pagar allí.",recoger:"Pagas al recoger, en efectivo o con tarjeta."}[pay];
+  const where=pay==="recoger"?`Recoge tu pedido en la tienda Ucookies: ${slot}.`:`Entrega: ${slot}, en ${v.a}.`;
+  $("#msg").textContent=`Pedido ${num}: ${t.units} galletas por ${eur(t.total)}. ${how} ${where}`;
+  const items=Object.entries(cart).map(([id,q])=>{const p=P.find(x=>x.id===id);return{id,q,p:p.p,n:p.n+(p.custom?" ("+p.d+")":"")}});
+  const ord={num,date:new Date().toISOString(),units:t.units,total:t.total,saved:t.disc,pay,items};
+  orders.unshift(ord);
+  lastOrder={...ord,sub:t.sub,disc:t.disc,ship:t.ship,how,where};
+  $("#sumtxt").textContent=summaryText(lastOrder);$("#copysum").textContent="Copiar resumen";
+  $("#mailme").href="mailto:"+encodeURIComponent(v.e)+"?subject="+encodeURIComponent("Tu pedido "+num+" en Ucookies")+"&body="+encodeURIComponent($("#sumtxt").textContent);orders.length=Math.min(orders.length,20);saveOrders();
+  cart={};coupon=false;try{localStorage.removeItem("migas-coupon")}catch(e){}save();drawCart();drawCoupon();$("#form").reset();pay="tarjeta";drawOrders();
+  $("#formbox").hidden=true;$("#done").hidden=false;
+});
+$("#ok").onclick=()=>{$("#dlg").close();toggle(false);location.hash="tienda"};
+/* cupón */
+function drawCoupon(){
+  $("#cstate").innerHTML=coupon?`<div class="ok">Cupón activo: 50 % de descuento en tu carrito. <button type="button" id="cview">Ver carrito</button> <button type="button" id="crem">Quitar cupón</button></div>`:"";
+  if(coupon){$("#cview").onclick=()=>toggle(true);$("#crem").onclick=()=>{coupon=false;try{localStorage.removeItem("migas-coupon")}catch(e){}drawCart();drawCoupon()}}
+}
+$("#cform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=$("#cn").value.trim(),m=$("#cm").value.trim(),g=parseFloat($("#cg").value.trim().replace(",","."));
+  const er={n:n.length<2?"Escribe tu nombre.":"",m:/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)?"":"Escribe tu correo universitario, como nombre@universidad.es.",g:""};
+  if(Number.isNaN(g)||g<0||g>10)er.g="Escribe una nota entre 0 y 10, por ejemplo 9,6.";
+  else if($("#cf").value!=="derecho")er.g="Este cupón es solo para estudiantes de la facultad de Derecho.";
+  else if(g<9.5)er.g="Hace falta una nota media de 9,5 o más. La tuya es "+String(g).replace(".",",")+".";
+  for(const k of ["n","m","g"]){$("#ec"+k).textContent=er[k];$("#c"+k).setAttribute("aria-invalid",!!er[k])}
+  if(er.n||er.m||er.g)return;
+  coupon=true;try{localStorage.setItem("migas-coupon","1")}catch(x){}
+  drawCart();drawCoupon();
+});
+/* pago */
+const NOTES={tarjeta:"Pagas ahora con tu tarjeta. Los datos no se guardan.",applepay:"Confirmas el pago con Face ID o Touch ID en tu dispositivo. En esta demo el pago es simulado.",uber:"Tu pedido se envía con Uber Eats y pagas dentro de la app. El envío lo cobra Uber Eats.",glovo:"Tu pedido se envía con Glovo y pagas dentro de la app. El envío lo cobra Glovo.",recoger:"Pagas en la tienda al recoger, en efectivo o con tarjeta. Sin gastos de envío."};
+const BTN={tarjeta:"Pagar y confirmar",applepay:"Pagar con Apple Pay",uber:"Pedir con Uber Eats",glovo:"Pedir con Glovo",recoger:"Confirmar y pagar al recoger"};
+const SLOTS_D=["Mañana, 9:00–13:00","Mañana, 16:00–20:00","Pasado mañana, 9:00–13:00"],SLOTS_R=["Hoy, 17:00–20:00","Mañana, 9:00–13:00","Mañana, 16:00–20:00"];
+function luhn(s){let sum=0,alt=false;for(let i=s.length-1;i>=0;i--){let n=+s[i];if(alt){n*=2;if(n>9)n-=9}sum+=n;alt=!alt}return sum%10===0}
+function setPay(m){
+  pay=m;
+  document.querySelectorAll('input[name="pm"]').forEach(r=>{r.checked=r.value===m});
+  $("#cardbox").hidden=m!=="tarjeta";
+  $("#addrbox").hidden=m==="recoger";
+  $("#dl").textContent=m==="recoger"?"Hora de recogida":"Entrega";
+  const prev=$("#d").selectedIndex,list=m==="recoger"?SLOTS_R:SLOTS_D;
+  $("#d").innerHTML=list.map(s=>`<option>${s}</option>`).join("");$("#d").selectedIndex=Math.max(prev,0)<list.length?Math.max(prev,0):0;
+  $("#pnote").textContent=NOTES[m];$("#sub").textContent=BTN[m];
+  drawCart();$("#paytot").textContent=eur(totals().total);
+}
+document.querySelectorAll('input[name="pm"]').forEach(r=>r.addEventListener("change",()=>setPay(r.value)));
+$("#pn").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"").slice(0,19).replace(/(.{4})/g,"$1 ").trim()});
+$("#px").addEventListener("input",e=>{let v=e.target.value.replace(/\D/g,"").slice(0,4);if(v.length>2)v=v.slice(0,2)+"/"+v.slice(2);e.target.value=v});
+$("#pc").addEventListener("input",e=>{e.target.value=e.target.value.replace(/\D/g,"")});
+setPay("tarjeta");
+/* personalizar */
+const BASES=[
+ {id:"clasica",n:"Base clásica",d:"Mantequilla y vainilla",p:2.2,c:"#D9A760"},
+ {id:"choc",n:"Base de chocolate negro",d:"Cacao intenso",p:2.4,c:"#5a3426"},
+ {id:"blanco",n:"Base de chocolate blanco",d:"Dulce y cremosa",p:2.4,c:"#EAD9B0"},
+ {id:"avena",n:"Base de avena",d:"Integral y crujiente",p:2.3,c:"#C8A06A"},
+ {id:"velvet",n:"Base red velvet",d:"Cacao suave y color rojo",p:2.6,c:"#A8324A"},
+ {id:"matcha",n:"Base de matcha",d:"Té verde japonés",p:2.7,c:"#A3BE7C"},
+ {id:"singluten",n:"Base sin gluten",d:"Harina de arroz y almendra",p:2.8,c:"#D6AC72"},
+ {id:"vegana",n:"Base vegana",d:"Sin huevo ni lácteos",p:2.6,c:"#C99A5E"}
+];
+const FILLS=[
+ {id:"none",n:"Sin relleno",p:0},
+ {id:"choc",n:"Chocolate negro fundido",p:.5,c:"#35190f"},
+ {id:"avellana",n:"Crema de avellanas",p:.6,c:"#8b5a3a"},
+ {id:"dulce",n:"Dulce de leche",p:.6,c:"#C98A3C"},
+ {id:"pistacho",n:"Crema de pistacho",p:.9,c:"#9bbb62"},
+ {id:"queso",n:"Crema de queso",p:.6,c:"#F6EBD0"},
+ {id:"frutos",n:"Mermelada de frutos rojos",p:.4,c:"#b3203f"},
+ {id:"cacahuete",n:"Mantequilla de cacahuete",p:.5,c:"#C48B4A"},
+ {id:"naranja",n:"Crema de naranja y azahar",p:.6,c:"#f0a43a"}
+];
+const TOPS=[
+ {id:"lluvia",n:"Lluvia de colores",p:.2,c:["#e5485f","#f2cf5b","#4aa3df","#6cc070"]},
+ {id:"sal",n:"Sal en escamas",p:.2,c:["#fffdf7"]},
+ {id:"canela",n:"Canela y azúcar",p:.2,c:["#b0692f","#f3e2c0"]},
+ {id:"virutas",n:"Virutas de chocolate",p:.3,c:["#3b2316","#6a3c25"]},
+ {id:"coco",n:"Coco rallado",p:.3,c:["#fffaf0"]},
+ {id:"nubes",n:"Nubes de azúcar",p:.3,c:["#ffd6e5","#ffffff"]},
+ {id:"almendra",n:"Almendra laminada",p:.4,c:["#f0d9a8"]},
+ {id:"avellana",n:"Avellana tostada",p:.4,c:["#a3693a"]},
+ {id:"caramelo",n:"Caramelo salado",p:.4,c:["#d98a2b"]},
+ {id:"trozos",n:"Trozos de galleta",p:.4,c:["#8b5a3a","#c8a06a"]},
+ {id:"pistacho",n:"Pistacho picado",p:.6,c:["#8fb04f"]},
+ {id:"frambuesa",n:"Frambuesa liofilizada",p:.6,c:["#d6336c"]},
+ {id:"oro",n:"Oro comestible",p:.9,c:["#e3b341"]}
+];
+const MAXT=6,sel={base:"clasica",fill:"none",tops:[]};
+const r2=x=>Math.round(x*100)/100;
+function hash(s){let h=0;for(const ch of s)h=(h*33+ch.charCodeAt(0))>>>0;return h.toString(36)}
+function bprice(){
+  const b=BASES.find(x=>x.id===sel.base),f=FILLS.find(x=>x.id===sel.fill);let t=0;
+  sel.tops.forEach((id,i)=>{if(i>=2)t+=TOPS.find(x=>x.id===id).p});
+  return{b:b.p,f:f.p,t:r2(t),total:r2(b.p+f.p+t)};
+}
+function bpreview(){
+  const b=BASES.find(x=>x.id===sel.base),f=FILLS.find(x=>x.id===sel.fill);
+  let g=`<circle cx="50" cy="50" r="46" fill="${b.c}"/><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(0,0,0,.18)" stroke-width="3"/>`;
+  if(f.c)g+=`<circle cx="50" cy="50" r="17" fill="${f.c}" stroke="rgba(0,0,0,.25)" stroke-width="1.5"/><ellipse cx="45" cy="45" rx="5" ry="3" fill="rgba(255,255,255,.35)"/>`;
+  sel.tops.forEach(id=>{
+    const t=TOPS.find(x=>x.id===id),r=rnd("t"+id);
+    for(let i=0;i<9;i++){const a=r()*6.283,d=21+r()*19,x=(50+Math.cos(a)*d).toFixed(1),y=(50+Math.sin(a)*d).toFixed(1);
+      g+=`<ellipse cx="${x}" cy="${y}" rx="${(2+r()*1.6).toFixed(1)}" ry="${(1.4+r()*1.4).toFixed(1)}" fill="${t.c[i%t.c.length]}" stroke="rgba(0,0,0,.25)" stroke-width=".3" transform="rotate(${(r()*180)|0} ${x} ${y})"/>`}
+  });
+  $("#bsvg").innerHTML=`<svg viewBox="0 0 100 100" role="img" aria-label="Vista previa de tu galleta">${g}</svg>`;
+}
+function updB(){
+  const pr=bprice(),b=BASES.find(x=>x.id===sel.base),f=FILLS.find(x=>x.id===sel.fill);
+  $("#tcount").textContent=`Llevas ${sel.tops.length} de ${MAXT}. Los 2 primeros son gratis.`;
+  document.querySelectorAll("#otops em").forEach(em=>{
+    const id=em.dataset.t,i=sel.tops.indexOf(id),free=i>=0?i<2:sel.tops.length<2;
+    em.textContent=free?"Gratis":"+"+eur(TOPS.find(x=>x.id===id).p);em.className=free?"free":"";
+  });
+  $("#bsum").innerHTML=`<li><span>${b.n}</span><span>${eur(b.p)}</span></li>`+(f.p?`<li><span>Relleno: ${f.n.toLowerCase()}</span><span>+${eur(f.p)}</span></li>`:`<li><span>Sin relleno</span><span>–</span></li>`)+sel.tops.map((id,i)=>`<li><span>${TOPS.find(x=>x.id===id).n}</span><span>${i<2?"Gratis":"+"+eur(TOPS.find(x=>x.id===id).p)}</span></li>`).join("");
+  $("#bprice").textContent=eur(pr.total);bpreview();
+}
+function saveCustom(){try{localStorage.setItem("migas-custom",JSON.stringify(customs))}catch(e){}}
+function initB(){
+  $("#obase").innerHTML=BASES.map(b=>`<label><input type="radio" name="bb" value="${b.id}"${b.id===sel.base?" checked":""}><span>${b.n}<small>${b.d}</small></span><em>${eur(b.p)}</em></label>`).join("");
+  $("#ofill").innerHTML=FILLS.map(f=>`<label><input type="radio" name="bf" value="${f.id}"${f.id===sel.fill?" checked":""}><span>${f.n}</span><em>${f.p?"+"+eur(f.p):""}</em></label>`).join("");
+  $("#otops").innerHTML=TOPS.map(t=>`<label><input type="checkbox" value="${t.id}"><span>${t.n}</span><em data-t="${t.id}"></em></label>`).join("");
+  $("#obase").addEventListener("change",e=>{sel.base=e.target.value;updB()});
+  $("#ofill").addEventListener("change",e=>{sel.fill=e.target.value;updB()});
+  $("#otops").addEventListener("change",e=>{
+    const id=e.target.value;
+    if(e.target.checked){if(sel.tops.length>=MAXT){e.target.checked=false;$("#bmsg").textContent="Máximo "+MAXT+" toppings por galleta.";return}sel.tops.push(id)}
+    else sel.tops=sel.tops.filter(x=>x!==id);
+    $("#bmsg").textContent="";updB();
+  });
+  $("#badd").onclick=()=>{
+    const q=Math.max(1,Math.min(24,parseInt($("#bq").value,10)||1));$("#bq").value=q;
+    const b=BASES.find(x=>x.id===sel.base),f=FILLS.find(x=>x.id===sel.fill),names=sel.tops.map(id=>TOPS.find(x=>x.id===id).n.toLowerCase());
+    const id="c"+hash([sel.base,sel.fill,...sel.tops].join("|")),pr=bprice();
+    const prod={id,n:"Galleta personalizada",d:`${b.n.toLowerCase()}, ${f.p?"relleno de "+f.n.toLowerCase():"sin relleno"}${names.length?", con "+names.join(", "):""}`,p:pr.total,t:[],c:b.c,chip:sel.tops.length?TOPS.find(x=>x.id===sel.tops[0]).c[0]:"#3b2316",custom:true};
+    if(!P.some(x=>x.id===id))P.push(prod);
+    customs[id]={id,d:prod.d,p:prod.p,c:prod.c,chip:prod.chip};saveCustom();
+    add(id,q);
+    $("#bmsg").textContent="✓ "+q+(q===1?" galleta personalizada añadida":" galletas personalizadas añadidas")+" al carrito.";
+  };
+  updB();
+}
+initB();
+/* cuenta, ofertas, recetas y logo */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>"&#"+c.charCodeAt(0)+";");
+const PAYL={tarjeta:"Tarjeta",applepay:"Apple Pay",uber:"Uber Eats",glovo:"Glovo",recoger:"Pago al recoger"};
+function saveOrders(){try{localStorage.setItem("migas-orders",JSON.stringify(orders))}catch(e){}}
+function wk(){const pool=P.filter(p=>!p.custom&&p.t.includes("rara"));return pool[Math.floor(Date.now()/6048e5)%pool.length]}
+function drawOrders(){
+  $("#ordlist").innerHTML=orders.length?orders.map((o,i)=>`<div class="ord"><div class="row"><b>${esc(o.num)}</b><span>${eur(o.total)}</span></div><p>${new Date(o.date).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})} · ${esc(PAYL[o.pay]||"")}${o.saved>0?" · ahorraste "+eur(o.saved):""}</p><p>${o.items.map(x=>esc(x.q)+" × "+esc(x.n)).join(", ")}</p><button class="lnk" data-rep="${i}">Repetir pedido</button></div>`).join(""):`<p class="empty">Aún no has hecho ningún pedido. Cuando compres, aparecerá aquí.</p>`;
+}
+function drawOffers(){
+  const t=totals(),after=t.sub-t.disc,w=wk();
+  const O=[
+    {n:"10 % con 12 o más galletas",d:"Se aplica solo en el carrito.",on:t.units>=12&&!coupon,s:t.units>=12?(coupon?"No se suma al cupón":"Aplicada"):t.units?`Te faltan ${12-t.units}`:"Disponible"},
+    {n:"50 % para estudiantes de Derecho",d:coupon?"Tienes el cupón activo en tu carrito.":"Con nota media de 9,5 o más. Consíguelo en <a href=\"#cupones\">Cupones</a>.",on:coupon,s:coupon?"Activo":"Disponible"},
+    {n:"Envío gratis desde 15 €",d:"Con tarjeta o Apple Pay. Al recoger en tienda no hay envío.",on:t.units>0&&after>=15,s:t.units?(after>=15?"Aplicado":`Te faltan ${eur(15-after)}`):"Disponible"},
+    {n:"Sabor de la semana: "+w.n,d:"La galleta rara de esta semana. Cambia cada semana.",on:false,s:"Esta semana"}
+  ];
+  $("#offlist").innerHTML=O.map(o=>`<div class="offer"><b>${o.n}<span class="st${o.on?" on":""}">${o.s}</span></b><p>${o.d}</p></div>`).join("");
+}
+$("#ordlist").addEventListener("click",e=>{
+  const b=e.target.closest("[data-rep]");if(!b)return;
+  const o=orders[+b.dataset.rep];if(!o)return;
+  o.items.forEach(x=>{if(P.some(p=>p.id===x.id)&&Number.isInteger(x.q)&&x.q>0)add(x.id,x.q)});toggle(true);
+});
+function loadRecipe(id){
+  const p=P.find(x=>x.id===id);if(!p||!p.r)return;
+  sel.base=p.r.b;sel.fill=p.r.f;sel.tops=[...p.r.t];
+  document.querySelectorAll('input[name="bb"]').forEach(i=>{i.checked=i.value===sel.base});
+  document.querySelectorAll('input[name="bf"]').forEach(i=>{i.checked=i.value===sel.fill});
+  document.querySelectorAll("#otops input").forEach(i=>{i.checked=sel.tops.includes(i.value)});
+  $("#bmsg").textContent="Receta de «"+p.n+"» cargada. Cambia lo que quieras.";updB();
+  const s=$("#personaliza");if(s.scrollIntoView)s.scrollIntoView({behavior:"smooth"});
+}
+$("#grid").addEventListener("click",e=>{const b=e.target.closest("[data-rec]");if(b)loadRecipe(b.dataset.rec)});
+/* compartir */
+let shareId=null;
+function curUrl(){let u=$("#slink").value.trim();if(shareId&&u&&!u.includes("#g-"))u=u.split("#")[0]+"#g-"+shareId;return u}
+function setLinks(){
+  const url=curUrl(),text=$("#stext").textContent,e=encodeURIComponent,p=shareId&&P.find(x=>x.id===shareId);
+  $("#swa").href="https://wa.me/?text="+e(text+" "+url);
+  $("#stg").href="https://t.me/share/url?url="+e(url)+"&text="+e(text);
+  $("#sx").href="https://twitter.com/intent/tweet?text="+e(text)+"&url="+e(url);
+  $("#smail").href="mailto:?subject="+e(p?p.n+" · Ucookies":"Ucookies")+"&body="+e(text+"\n"+url);
+}
+function openShare(id){
+  shareId=id;const p=id&&P.find(x=>x.id===id),base=/^https?:/.test(location.href)?location.href.split("#")[0]:"";
+  $("#stitle").textContent=p?"Comparte «"+p.n+"»":"Comparte Ucookies";
+  $("#stext").textContent=p?`Mira esta galleta de Ucookies: ${p.n} (${eur(p.p)})`:"Ucookies: galletas de horno, sabores raros, creaciones valencianas y galletas personalizables.";
+  $("#slink").readOnly=!!base;$("#slink").placeholder="Pega aquí el enlace de esta página";
+  $("#slink").value=base?(p?base+"#g-"+id:base):"";
+  $("#smsg").textContent=base?"":"Esta vista no tiene enlace propio: pega arriba el enlace de la web y los botones lo usarán.";
+  $("#snative").hidden=!navigator.share;setLinks();$("#sdlg").showModal();
+}
+$("#slink").addEventListener("input",setLinks);
+$("#shareopen").onclick=()=>openShare(null);
+$("#sclose").onclick=()=>$("#sdlg").close();
+$("#grid").addEventListener("click",e=>{const b=e.target.closest("[data-sh]");if(b)openShare(b.dataset.sh)});
+$("#snative").onclick=async()=>{try{await navigator.share({title:"Ucookies",text:$("#stext").textContent,url:curUrl()})}catch(e){}};
+$("#scopy").onclick=async()=>{
+  const v=curUrl();let ok=false;
+  if(v){try{await navigator.clipboard.writeText(v);ok=true}catch(e){}
+  if(!ok){try{$("#slink").select();ok=document.execCommand("copy")}catch(e){}}}
+  $("#smsg").textContent=ok?"✓ Enlace copiado.":"No se pudo copiar solo: selecciona el enlace y cópialo.";
+};
+function goHash(){
+  const m=/^#g-([a-z0-9-]+)$/.exec(location.hash);if(!m)return;
+  let el=document.getElementById("g-"+m[1]);
+  if(!el&&P.some(p=>p.id===m[1]&&!p.custom)){filter="todas";drawFilters();drawGrid();el=document.getElementById("g-"+m[1])}
+  if(!el)return;
+  if(el.scrollIntoView)el.scrollIntoView({behavior:"smooth",block:"center"});
+  el.classList.add("hl");setTimeout(()=>el.classList.remove("hl"),3000);
+}
+window.addEventListener("hashchange",goHash);setTimeout(goHash,100);
+/* resumen del pedido */
+function summaryText(o){
+  const ship=o.pay==="recoger"?"Recogida en tienda":(o.pay==="uber"||o.pay==="glovo")?"Se paga en la app":(o.ship?eur(o.ship):"Gratis");
+  return [`Pedido ${o.num} · Ucookies`,new Date(o.date).toLocaleString("es-ES",{dateStyle:"long",timeStyle:"short"}),"",...o.items.map(x=>`${x.q} × ${x.n} · ${eur(x.p*x.q)}`),"",`Subtotal: ${eur(o.sub)}`,...(o.disc>0?[`Descuento: −${eur(o.disc)}`]:[]),`Envío: ${ship}`,`Total: ${eur(o.total)}`,"",`Pago: ${PAYL[o.pay]}. ${o.how}`,o.where].join("\n");
+}
+$("#copysum").onclick=async()=>{
+  const txt=$("#sumtxt").textContent;let ok=false;
+  try{await navigator.clipboard.writeText(txt);ok=true}catch(e){}
+  if(!ok){try{const r=document.createRange();r.selectNodeContents($("#sumtxt"));const s=getSelection();s.removeAllRanges();s.addRange(r);ok=document.execCommand("copy")}catch(e){}}
+  $("#copysum").textContent=ok?"✓ Copiado":"Selecciona el texto y cópialo";
+};
+/* valoraciones */
+const SAMPLE=[
+ {n:"Lucía M.",s:5,t:"La de horchata y canela es una locura: suave, nada empalagosa y con sabor a verano. Ya he repetido."},
+ {n:"Carlos R.",s:5,t:"Monté mi propia galleta con base de chocolate negro, relleno de pistacho y almendra. Genial poder elegirlo todo."},
+ {n:"Marta P.",s:5,t:"El cremaet y el turrón de Jijona saben a casa. Una idea buenísima convertir nuestros dulces en galletas."},
+ {n:"Álvaro G.",s:4,t:"La de red velvet y queso es de lo mejor que he probado. El pedido llegó perfecto y bien embalado."},
+ {n:"Irene S.",s:5,t:"Pedí la sin gluten de frutos rojos y estaba tierna y sabrosa. Se nota que son de horno de verdad."}
+];
+let myRev=[];
+try{const o=JSON.parse(localStorage.getItem("migas-reviews"));if(Array.isArray(o))myRev=o.filter(r=>r&&Number.isInteger(r.s)&&r.s>=1&&r.s<=5&&typeof r.n==="string"&&typeof r.t==="string").slice(0,20)}catch(e){}
+const star=n=>"★".repeat(n)+"☆".repeat(5-n);
+function drawRev(){
+  const all=[...myRev.map(r=>({...r,mine:true})),...SAMPLE],avg=all.reduce((a,r)=>a+r.s,0)/all.length;
+  $("#ravg").textContent=avg.toFixed(1).replace(".",",");$("#rstars").textContent=star(Math.round(avg));
+  $("#rcount").textContent=`${all.length} valoraciones (${SAMPLE.length} de ejemplo)`;
+  $("#rlist").innerHTML=all.map(r=>`<article class="rv"><div class="rvh"><span class="stars" role="img" aria-label="${r.s} de 5 estrellas">${star(r.s)}</span><span class="tag">${r.mine?"Tu reseña":"Ejemplo"}</span></div><p>${esc(r.t)}</p><small>${esc(r.n)}</small></article>`).join("");
+}
+$("#rpick").innerHTML=[5,4,3,2,1].map(n=>`<label><input type="radio" name="rs" value="${n}"> ${n} ★</label>`).join("");
+$("#rform").addEventListener("submit",e=>{
+  e.preventDefault();
+  const n=$("#rn").value.trim(),t=$("#rt").value.trim(),sc=document.querySelector('input[name="rs"]:checked');
+  const er={n:n.length<2?"Escribe tu nombre.":"",s:sc?"":"Elige de 1 a 5 estrellas.",t:t.length<10?"Cuéntanos un poco más (mínimo 10 caracteres).":""};
+  $("#ern").textContent=er.n;$("#ers").textContent=er.s;$("#ert").textContent=er.t;$("#rmsg").textContent="";
+  if(er.n||er.s||er.t)return;
+  myRev.unshift({n,s:+sc.value,t,d:new Date().toISOString()});myRev.length=Math.min(myRev.length,20);
+  try{localStorage.setItem("migas-reviews",JSON.stringify(myRev))}catch(x){}
+  $("#rform").reset();drawRev();$("#rmsg").textContent="✓ ¡Gracias! Tu valoración ya aparece arriba.";
+});
+drawRev();
+(function(){
+  const lg=$("#logo"),rest=$("#rest"),cc=$("#cc");
+  const reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t1,t2;
+  function run(){
+    clearTimeout(t1);clearTimeout(t2);lg.classList.remove("done");cc.textContent="C";rest.style.removeProperty("--w");
+    if(reduce){lg.classList.add("done");cc.textContent="c";return}
+    t1=setTimeout(()=>{rest.style.setProperty("--w",rest.getBoundingClientRect().width+"px");lg.classList.add("done");t2=setTimeout(()=>{cc.textContent="c"},500)},1900);
+  }
+  lg.addEventListener("click",run);run();
+})();
+drawOrders();
+drawFilters();drawGrid();drawCart();drawCoupon();
+</script>
+</body>
+</html>
